@@ -6,10 +6,11 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
+import './App.css';
 
 export default function App() {
   return (
-    <div>
+    <div className='page'>
       <Routes>
         <Route path='/' element={<Main />}/>
         <Route path='/movies' element={<Movies />}/>
