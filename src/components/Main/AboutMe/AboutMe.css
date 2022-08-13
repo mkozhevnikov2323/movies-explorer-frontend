@@ -1,0 +1,74 @@
+.about-me {
+  padding: 100px 70px 100px;
+  background-color: rgba(32, 32, 32, 1);
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: #fff;
+  display: grid;
+  grid-template-areas:
+    "title title"
+    "subtitle photo"
+    "description photo"
+    "text photo"
+    "link photo";
+  column-gap: 270px;
+  grid-template-rows: 141px 76px 46px auto 17px;
+}
+
+.about-me__title {
+  font-size: 22px;
+  line-height: 27px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid rgba(218, 218, 218, 1);
+  margin-top: 0;
+  margin-bottom: 90px;
+  align-self: stretch;
+  font-weight: 400;
+  grid-area: title;
+}
+
+.about-me__photo {
+  border-radius: 10px;
+  height: 327px;
+  width: 270px;
+  grid-area: photo;
+}
+
+.about-me__subtitle {
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  margin-top: 0;
+  margin-bottom: 18px;
+  max-height: 58px;
+  grid-area: subtitle;
+}
+
+.about-me__description {
+  margin-top: 0;
+  margin-bottom: 26px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.about-me__text {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.about-me__link:link, .about-me__link:visited {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  width: fit-content;
+  text-decoration: none;
+  color: #fff;
+  transition: .7s;
+}
+
+.about-me__link:hover, .about-me__link:active {
+  opacity: .6;
+}
