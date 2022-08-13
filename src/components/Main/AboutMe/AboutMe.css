@@ -33,6 +33,7 @@
   border-radius: 10px;
   height: 327px;
   width: 270px;
+  object-fit: cover;
   grid-area: photo;
 }
 
@@ -57,6 +58,7 @@
 .about-me__text {
   font-size: 14px;
   line-height: 22px;
+  margin: 0;
 }
 
 .about-me__link:link, .about-me__link:visited {
