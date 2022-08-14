@@ -4,7 +4,7 @@ import NavigationAccount from './NavigationAccount/NavigationAccount';
 import NavigationAuthorization from './NavigationAuthorization/NavigationAuthorization';
 
 export default function Navigation() {
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
 
   return (
     <>
