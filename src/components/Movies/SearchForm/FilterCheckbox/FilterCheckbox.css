@@ -1,0 +1,13 @@
+.filterCheckbox__label {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #fff;
+  margin-bottom: 43px;
+  padding-top: 26px;
+}
