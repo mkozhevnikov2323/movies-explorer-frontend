@@ -3,9 +3,10 @@ import './FilterCheckbox.css';
 
 export default function FilterCheckbox() {
   return (
-    <label className='filterCheckbox__label'>
-      <input type='checkbox' value='short' className='filterCheckbox__swither' />
-      Короткометражки
-    </label>
+    <div className='filterCheckbox'>
+      <input type='checkbox' value='short' id='switcher' className='filterCheckbox__input' />
+      <label className='filterCheckbox__switcher' for='switcher'></label>
+      <p className='filterCheckbox__text'>Короткометражки</p>
+    </div>
   )
 }
