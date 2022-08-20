@@ -12,6 +12,9 @@ export default function Movies() {
       <main className='movies'>
         <SearchForm />
         <MoviesCardList />
+        <section className='movies__more'>
+          <button className='movies__more-btn'>Ещё</button>
+        </section>
       </main>
       <Footer />
     </>

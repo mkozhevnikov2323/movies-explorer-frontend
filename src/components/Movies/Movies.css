@@ -2,3 +2,29 @@
   background-color: rgba(32, 32, 32, 1);
   padding: 70px 70px 80px;
 }
+
+.movies__more {
+  padding-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.movies__more-btn {
+  background-color: rgba(47, 47, 47, 1);
+  border: 0;
+  border-radius: 6px;
+  min-width: 320px;
+  min-height: 36px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #fff;
+  cursor: pointer;
+  transition: .7s;
+}
+
+.movies__more-btn:hover {
+  opacity: .8;
+}
