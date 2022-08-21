@@ -55,6 +55,7 @@
   color: #FFF;
   cursor: pointer;
   transition: .8s;
+  text-decoration: none;
 }
 
 .promo__button:hover {

@@ -8,7 +8,7 @@ export default function Promo() {
       <img className='promo__image' src={globe} alt='Глобус'/>
       <h1 className='promo__title'>Учебный проект студента факультета <span className='promo__course'>Веб-разработки.</span></h1>
       <p className='promo__subtitle'>Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>
-      <button className='promo__button'>Узнать больше</button>
+      <a href='#about' className='promo__button'>Узнать больше</a>
     </section>
   )
 }

@@ -8,7 +8,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 export default function Movies() {
   return (
     <>
-      <Header />
+      <Header login={true}/>
       <main className='movies'>
         <SearchForm />
         <MoviesCardList />

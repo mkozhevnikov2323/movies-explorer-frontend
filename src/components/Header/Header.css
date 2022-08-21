@@ -9,3 +9,7 @@
   box-sizing: border-box;
   background-color: rgba(7, 48, 66, 1);
 }
+
+.header_black {
+  background-color: rgba(32, 32, 32, 1);
+}

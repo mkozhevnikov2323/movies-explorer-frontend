@@ -8,7 +8,9 @@ export default function Register() {
   return (
     <div className='register'>
       <div className='register__content'>
-        <img alt='Логотип' className='register__logo' src={logo}/>
+        <Link to='/'>
+          <img alt='Логотип' className='register__logo' src={logo}/>
+        </Link>
         <h2 className='register__title'>Добро пожаловать!</h2>
         <FormAuth typeAuth='register'/>
         <p className="register__subtitle">
