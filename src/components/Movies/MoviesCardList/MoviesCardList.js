@@ -1,6 +1,7 @@
 import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../Preloader/Preloader';
 
 const movies = [
   {
@@ -93,10 +94,16 @@ const movies = [
   },
 ];
 
-export default function MoviesCardList() {
+const savedMovies = movies.filter((movie) => movie.save)
+
+export default function MoviesCardList({ savedMovie }) {
   return (
     <section className='moviesCardList'>
-      {movies.map((movie) => <MoviesCard movie={movie} key={movie._id} />)}
+      {savedMovie ? (
+        savedMovies.map((movie) => <MoviesCard movie={movie} key={movie._id} />)
+      ) : (
+        movies.map((movie) => <MoviesCard movie={movie} key={movie._id} />)
+      )}
     </section>
   )
 }

@@ -23,6 +23,7 @@
   box-sizing: border-box;
   border: 0;
   background-color: rgba(32, 32, 32, 1);
+  color: #fff;
 }
 
 .searchForm__button {
@@ -37,4 +38,10 @@
   line-height: 18px;
   color: #FFFFFF;
   cursor: pointer;
+  border: 0;
+  transition: .7s;
+}
+
+.searchForm__button:hover {
+  opacity: .6;
 }

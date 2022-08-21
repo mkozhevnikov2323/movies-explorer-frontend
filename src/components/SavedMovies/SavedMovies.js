@@ -11,7 +11,7 @@ export default function SavedMovies() {
       <Header login={true}/>
       <main className='savedMovies'>
         <SearchForm />
-        <MoviesCardList />
+        <MoviesCardList savedMovie={true}/>
       </main>
       <Footer />
     </>

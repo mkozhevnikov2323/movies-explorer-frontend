@@ -11,7 +11,7 @@ export default function Movies() {
       <Header login={true}/>
       <main className='movies'>
         <SearchForm />
-        <MoviesCardList />
+        <MoviesCardList savedMovie={false}/>
         <section className='movies__more'>
           <button className='movies__more-btn'>Ещё</button>
         </section>
