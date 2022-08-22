@@ -1,5 +1,5 @@
 .about-me {
-  padding: 100px 70px 100px;
+  padding: 100px 70px;
   background-color: rgba(32, 32, 32, 1);
   font-family: "Inter";
   font-style: normal;
@@ -73,4 +73,37 @@
 
 .about-me__link:hover, .about-me__link:active {
   opacity: .6;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .about-me {
+    padding: 90px 50px;
+    column-gap: 50px;
+  }
+
+  .about-me__title {
+    margin-bottom: 66px;
+  }
+
+  .about-me__subtitle {
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 16px;
+  }
+
+  .about-me__photo {
+    width: 255px;
+    height: 307px;
+  }
+
+  .about-me__description {
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 20px;
+  }
+
+  .about-me__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }

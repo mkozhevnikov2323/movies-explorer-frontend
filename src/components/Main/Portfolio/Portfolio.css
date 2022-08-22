@@ -42,3 +42,13 @@
   letter-spacing: -0.04em;
   color: #FFFFFF;
 }
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .portfolio {
+    padding: 0 50px 90px;
+  }
+
+  .portfolio__example {
+    font-size: 28px;
+  }
+}

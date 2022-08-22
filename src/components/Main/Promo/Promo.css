@@ -1,15 +1,6 @@
 .promo {
-  width: 1280px;
-  padding: 75px 70px;
   box-sizing: border-box;
   background-color: rgba(7, 48, 66, 1);
-  position: relative;
-}
-
-.promo__image {
-  position: absolute;
-  top: 75px;
-  right: 70px;
 }
 
 .promo__title {
@@ -17,11 +8,8 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  font-size: 50px;
-  line-height: 1.16;
   color: #FFF;
   max-width: 640px;
-  margin-bottom: 36px;
 }
 
 .promo__course {
@@ -60,4 +48,61 @@
 
 .promo__button:hover {
   opacity: .6;
+}
+
+@media screen and (min-width: 1024px) {
+  .promo {
+    padding: 75px 70px;
+    position: relative;
+  }
+
+  .promo__image {
+    position: absolute;
+    top: 75px;
+    right: 70px;
+  }
+
+  .promo__title {
+    margin-bottom: 36px;
+    font-size: 50px;
+    line-height: 1.16;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .promo__image {
+    margin-top: 140px;
+  }
+
+  .promo__title {
+    margin-top: 48px;
+    font-size: 40px;
+    line-height: 50px;
+  }
+
+  .promo__course {
+    display: inline-block;
+  }
+
+  .promo__subtitle {
+    margin-top: 22px;
+    margin-bottom: 92px;
+    max-width: 260px;
+  }
+
+  .promo__button {
+    margin-bottom: 76px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 1023px) {
+  .promo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .promo__title, .promo__subtitle {
+    text-align: center;
+  }
 }

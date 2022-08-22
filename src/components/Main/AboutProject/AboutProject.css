@@ -76,3 +76,14 @@
   font-weight: 500;
   color: rgba(139, 139, 139, 1);
 }
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+
+  .about-project__plans {
+    gap: 22px 30px;
+    margin-bottom: 93px;
+  }
+}

@@ -1,5 +1,4 @@
 .header {
-  width: 1280px;
   min-height: 74px;
   padding-left: 70px;
   padding-right: 70px;
@@ -12,4 +11,11 @@
 
 .header_black {
   background-color: rgba(32, 32, 32, 1);
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .header {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 }

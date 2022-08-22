@@ -48,3 +48,10 @@
 .footer__link:hover, .footer__link:active {
   opacity: .6;
 }
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .footer {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
