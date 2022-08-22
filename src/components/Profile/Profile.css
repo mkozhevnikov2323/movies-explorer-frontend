@@ -1,7 +1,7 @@
 .profile {
   background-color: rgba(32, 32, 32, 1);
-  min-height: 100vh;
-  width: 1280px;
+  min-height: calc(100vh - 74px);
+  width: 100%;
   display: flex;
   justify-content: center;
 }
