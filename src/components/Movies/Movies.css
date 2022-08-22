@@ -28,3 +28,10 @@
 .movies__more-btn:hover {
   opacity: .8;
 }
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .movies {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
