@@ -8,7 +8,7 @@ export default function Login() {
   return (
     <div className='register'>
       <div className='register__content'>
-        <Link to='/'>
+        <Link to='/' className='register__logo-link'>
           <img alt='Логотип' className='register__logo' src={logo}/>
         </Link>
         <h2 className='register__title'>Рады видеть!</h2>

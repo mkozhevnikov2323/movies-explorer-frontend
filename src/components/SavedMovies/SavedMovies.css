@@ -9,3 +9,10 @@
     padding-right: 30px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .savedMovies {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}

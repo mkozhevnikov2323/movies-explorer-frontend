@@ -103,3 +103,16 @@
 .register__subtitle_enter:hover {
   opacity: .6;
 }
+
+@media screen and (max-width: 767px) {
+  .register__content {
+    display: grid;
+    grid-template-columns: minmax(260px, 396px);
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+
+  .register__logo-link, .register__title {
+    justify-self: center;
+  }
+}

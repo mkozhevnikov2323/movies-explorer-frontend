@@ -95,3 +95,14 @@
 .profile__logout-btn:hover {
   opacity: .8;
 }
+
+@media screen and (max-width: 767px) {
+  .profile__content {
+    min-width: 80%;
+  }
+
+  .profile__title {
+    margin-top: 70px;
+    margin-bottom: 80px;
+  }
+}
