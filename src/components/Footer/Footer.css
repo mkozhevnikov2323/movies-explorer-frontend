@@ -55,3 +55,38 @@
     padding-right: 30px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .footer {
+    padding: 79px 10px 10px;
+  }
+
+  .footer__text {
+    font-size: 12px;
+    line-height: 15px;
+    padding-bottom: 21px;
+    margin-bottom: 30px;
+  }
+
+  .footer__info {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .footer_copyright {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .footer__links {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .footer__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

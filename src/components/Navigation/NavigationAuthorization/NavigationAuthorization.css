@@ -31,3 +31,15 @@
 .navigation__signup:hover {
   opacity: .6;
 }
+
+@media screen and (max-width: 767px) {
+  .navigation__signup {
+    font-size: 10px;
+  }
+
+  .navigation__signin {
+    font-size: 10px;
+    margin-left: 14px;
+    padding: 5px 12px;
+  }
+}
