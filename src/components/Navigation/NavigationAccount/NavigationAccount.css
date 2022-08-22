@@ -45,3 +45,31 @@
 .navigation__saved-movies {
   margin-left: 20px;
 }
+
+.burger-menu {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  cursor: pointer;
+  background-image: url(../../../images/burger.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  transition: .7s;
+}
+
+.burger-menu:hover {
+  opacity: .6;
+}
+
+@media screen and (min-width: 1024px) {
+  .burger-menu {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .navigation_type_account {
+    display: none;
+  }
+}

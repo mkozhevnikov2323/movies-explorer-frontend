@@ -7,6 +7,7 @@
   align-items: center;
   box-sizing: border-box;
   background-color: rgba(7, 48, 66, 1);
+  position: relative;
 }
 
 .header_black {
