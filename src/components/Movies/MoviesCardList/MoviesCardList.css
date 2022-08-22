@@ -11,3 +11,11 @@
     gap: 30px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .moviesCardList {
+    margin-top: 40px;
+    grid-template-columns: none;
+    gap: 14px;
+  }
+}

@@ -45,3 +45,18 @@
 .searchForm__button:hover {
   opacity: .6;
 }
+
+@media screen and (max-width: 767px) {
+  .searchForm__form {
+    padding: 6px;
+  }
+
+  .searchForm__input {
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .searchForm__button {
+    padding: 13px 10px;
+  }
+}

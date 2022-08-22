@@ -35,3 +35,14 @@
     padding-right: 30px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .movies {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .movies__more-btn {
+    min-width: 240px;
+  }
+}

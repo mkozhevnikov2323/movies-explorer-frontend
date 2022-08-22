@@ -79,3 +79,14 @@
 .filterCheckbox__input:checked + .filterCheckbox__switcher:active:before {
   background-color: rgba(172, 255, 209, 1);
 }
+
+@media screen and (max-width: 767px) {
+  .filterCheckbox {
+    margin-bottom: 63px;
+  }
+
+  .filterCheckbox__text {
+    font-size: 11px;
+    line-height: 18px;
+  }
+}
