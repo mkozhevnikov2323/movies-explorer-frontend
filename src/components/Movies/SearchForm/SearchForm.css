@@ -14,7 +14,7 @@
 
 .searchForm__input {
   width: calc(100% - 100px);
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -31,7 +31,7 @@
   background-color: rgba(66, 133, 244, 1);
   border-radius: 5px;
   padding: 17px 20px;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;

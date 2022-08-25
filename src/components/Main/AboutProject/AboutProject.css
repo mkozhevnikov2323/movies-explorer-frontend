@@ -4,7 +4,7 @@
 }
 
 .about-project__title {
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
@@ -23,7 +23,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-auto-flow: column;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   font-weight: 400;
   color: #FFF;
@@ -45,7 +45,7 @@
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-template-rows: 36px 31px;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style: normal;
   font-size: 14px;
   line-height: 17px;
