@@ -7,7 +7,7 @@ export default function NavigationMobile({ isOpen, onCloseMenu }) {
   return (
     <div className={isOpen ? ('navigationMobile') : ('navigationMobile_hidden')}>
       <div className='navigationMobile__close-icon-wrapper'>
-        <button className='navigationMobile__close-icon' onClick={onCloseMenu}></button>
+        <button type='button' className='navigationMobile__close-icon' onClick={onCloseMenu}></button>
       </div>
       <ul className='navigationMobile__list'>
         <li>

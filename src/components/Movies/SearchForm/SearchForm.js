@@ -7,7 +7,7 @@ export default function SearchForm() {
     <section className='searchForm'>
       <form className='searchForm__form'>
         <input type='text' className='searchForm__input' placeholder='Фильм' required />
-        <button className='searchForm__button'>Поиск</button>
+        <button type='button' className='searchForm__button'>Поиск</button>
       </form>
       <FilterCheckbox />
     </section>

@@ -23,14 +23,14 @@ export default function FormAuth({ typeAuth }) {
       <span className="form__error">Что-то пошло не так...</span>
       {
         typeAuth === 'register' && (
-          <button type="submit" className="form__button">
+          <button type='button' className="form__button">
             Зарегистрироваться
           </button>
         )
       }
       {
         typeAuth === 'login' && (
-          <button type="submit" className="form__button">
+          <button type='button' className="form__button">
             Войти
           </button>
         )

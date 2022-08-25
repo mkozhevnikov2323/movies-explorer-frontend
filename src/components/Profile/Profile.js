@@ -42,9 +42,9 @@ export default function Profile() {
               />
             </label>
             {editMode ? (
-              <button className="profile__edit-btn">Сохранить</button>
+              <button type='button' className="profile__edit-btn">Сохранить</button>
             ) : (
-              <button className="profile__edit-btn">Редактировать</button>
+              <button type='button' className="profile__edit-btn">Редактировать</button>
             )}
           </form>
           <Link to="/signin" className="profile__logout-btn">

@@ -37,7 +37,7 @@ export default function NavigationAccount() {
           </div>
         </li>
       </ul>
-      <button className='burger-menu' onClick={openNavigationMobile}></button>
+      <button type='button' className='burger-menu' onClick={openNavigationMobile}></button>
       <NavigationMobile isOpen={isNavigationMobileOpen} onCloseMenu={closeNavigationMobile}/>
     </>
   )

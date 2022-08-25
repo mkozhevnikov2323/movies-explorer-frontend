@@ -17,9 +17,9 @@ export default function MoviesCard({ movie }) {
       <h2 className='movieCard__title'>{nameRu}</h2>
       {
         save ? (
-          <button className='movieCard__like movieCard__like_active'></button>
+          <button type='button' className='movieCard__like movieCard__like_active'></button>
         ) : (
-          <button className='movieCard__like'></button>
+          <button type='button' className='movieCard__like'></button>
         )
       }
       <p className='movieCard__duration'>{convertToHoursAndMinutes(duration)}</p>
