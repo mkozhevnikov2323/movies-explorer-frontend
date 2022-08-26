@@ -1,0 +1,29 @@
+.header {
+  min-height: 74px;
+  padding-left: 70px;
+  padding-right: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(7, 48, 66, 1);
+  position: relative;
+}
+
+.header_black {
+  background-color: rgba(32, 32, 32, 1);
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .header {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
