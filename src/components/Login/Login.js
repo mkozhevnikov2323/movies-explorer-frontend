@@ -4,7 +4,7 @@ import './Login.css';
 import FormAuth from '../FormAuth/FormAuth';
 import logo from '../../images/logo.svg';
 
-export default function Login() {
+export default function Login({ onLogin, messageAuth, isAuthSuccess }) {
   return (
     <div className='register'>
       <div className='register__content'>
@@ -12,7 +12,7 @@ export default function Login() {
           <img alt='Логотип' className='register__logo' src={logo}/>
         </Link>
         <h2 className='register__title'>Рады видеть!</h2>
-        <FormAuth typeAuth='login'/>
+        <FormAuth typeAuth='login' onLogin={onLogin} messageAuth={messageAuth} isAuthSuccess={isAuthSuccess}/>
         <p className="register__subtitle">
           Ещё не зарегистрированы?
           <Link to="/signup" className="register__subtitle_enter">
