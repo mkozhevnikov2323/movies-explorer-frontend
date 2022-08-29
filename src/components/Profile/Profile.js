@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Header/Header';
 import './Profile.css';
+import { CurrentUserContext } from '../../context/CurrentUserContext';
 
-export default function Profile() {
-  const user = {
-    name: 'Максим',
-    email: 'test@test.ru'
-  }
+export default function Profile({ onSignOut }) {
+  const currentUser = useContext(CurrentUserContext);
+
+  useEffect(() => {
+    setCurrentUserData({ name: currentUser.name, email: currentUser.email });
+  }, [currentUser]);
 
   const [editMode, setEditMode] = useState(false);
+  const [currentUserData, setCurrentUserData] = useState({ name: '', email: '' });
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -21,14 +24,14 @@ export default function Profile() {
       <Header login={true}/>
       <div className="profile">
         <div className="profile__content">
-          <h2 className="profile__title">Привет, {user.name}!</h2>
+          <h2 className="profile__title">Привет, {currentUser.name}!</h2>
           <form className="profile__form" onSubmit={handleEdit}>
             <label className="profile__label">
               Имя
               <input
                 type="text"
                 className="profile__input"
-                defaultValue={user.name}
+                defaultValue={currentUserData.name}
                 disabled={!editMode}
               />
             </label>
@@ -37,7 +40,7 @@ export default function Profile() {
               <input
                 type="text"
                 className="profile__input"
-                defaultValue={user.email}
+                defaultValue={currentUserData.email}
                 disabled={!editMode}
               />
             </label>
@@ -47,7 +50,7 @@ export default function Profile() {
               <button type='button' className="profile__edit-btn">Редактировать</button>
             )}
           </form>
-          <Link to="/signin" className="profile__logout-btn">
+          <Link to="/signin" className="profile__logout-btn" onClick={onSignOut}>
             Выйти из аккаунта
           </Link>
         </div>
