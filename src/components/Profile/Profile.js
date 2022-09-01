@@ -1,18 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Header/Header';
 import './Profile.css';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
-export default function Profile({ onSignOut }) {
+export default function Profile({ loggedIn, onSignOut }) {
   const currentUser = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    setCurrentUserData({ name: currentUser.name, email: currentUser.email });
-  }, [currentUser]);
-
   const [editMode, setEditMode] = useState(false);
-  const [currentUserData, setCurrentUserData] = useState({ name: '', email: '' });
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -21,7 +15,7 @@ export default function Profile({ onSignOut }) {
 
   return (
     <>
-      <Header login={true}/>
+      <Header loggedIn={loggedIn} login={true}/>
       <div className="profile">
         <div className="profile__content">
           <h2 className="profile__title">Привет, {currentUser.name}!</h2>
@@ -31,7 +25,7 @@ export default function Profile({ onSignOut }) {
               <input
                 type="text"
                 className="profile__input"
-                defaultValue={currentUserData.name}
+                defaultValue={currentUser.name}
                 disabled={!editMode}
               />
             </label>
@@ -40,7 +34,7 @@ export default function Profile({ onSignOut }) {
               <input
                 type="text"
                 className="profile__input"
-                defaultValue={currentUserData.email}
+                defaultValue={currentUser.email}
                 disabled={!editMode}
               />
             </label>

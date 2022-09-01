@@ -8,10 +8,10 @@ import Techs from './Techs/Techs';
 import AboutMe from './AboutMe/AboutMe';
 import Portfolio from './Portfolio/Portfolio';
 
-export default function Main() {
+export default function Main({ loggedIn }) {
   return (
     <>
-      <Header />
+      <Header loggedIn={loggedIn}/>
       <main className='main'>
         <Promo />
         <AboutProject />

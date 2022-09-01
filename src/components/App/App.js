@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -10,38 +10,29 @@ import Register from '../Register/Register';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import './App.css';
 import * as auth from '../../utils/auth';
+import * as api from '../../utils/api';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
   const navigate = useNavigate();
   const [messageAuth, setMessageAuth] = useState('');
-  const [isAuthSuccess, setIsAuthSuccess] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     tokenCheck()
-    if (isAuthSuccess) {
-      auth.getContent(localStorage.getItem('token'))
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch((err) => console.log(err));
-    }
-  }, [isAuthSuccess])
+  }, [loggedIn]);
 
   function handleRegistration(regData) {
-    setMessageAuth('');
-
     auth.register({
       name: regData.name,
       email: regData.email,
       password: regData.password
     })
       .then(() => {
-        setIsAuthSuccess(true);
-        setMessageAuth('Вы успешно зарегистрировались.')
+        setMessageAuth('Вы успешно зарегистрировались.');
       })
       .then(() => {
-        navigate('/movies');
+        handleLogin(regData.email, regData.password);
       })
       .catch((err) => {
         console.log(err);
@@ -58,19 +49,13 @@ export default function App() {
   }
 
   function handleLogin(email, password) {
-    setMessageAuth('');
-
     return auth
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
-          setIsAuthSuccess(true);
           setMessageAuth('Вы успешно вошли.');
-
-          // setCurrentUser(user);
-          // setUserEmail(email);
-          // setLoggedIn(true);
+          setLoggedIn(true)
         }
       })
       .then(() => {
@@ -84,53 +69,92 @@ export default function App() {
 
   function signOut() {
     localStorage.removeItem('token');
-    // setLoggedIn(false);
-    // setUserEmail('');
+    setLoggedIn(false);
+    setMessageAuth('');
     navigate('/signin');
   }
 
-  const tokenCheck = () => {
-    if (localStorage.getItem("token")) {
-      const token = localStorage.getItem("token");
+  function tokenCheck() {
+    const token = localStorage.getItem("token");
+    if (token) {
       auth
         .getContent(token)
         .then((res) => {
           if (res) {
-            // setUserEmail(res.email);
-            // setLoggedIn(true);
-            navigate('/movies');
+            setLoggedIn(true);
+            setCurrentUser({
+              name: res.name,
+              email: res.email
+            })
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  };
+  }
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/saved-movies" element={<SavedMovies />} />
-          <Route path="/profile" element={<Profile onSignOut={signOut}/>} />
+          <Route path="/" element={<Main loggedIn={loggedIn} />} />
+          <Route
+            path="/movies"
+            element={
+              loggedIn ? (
+                <Movies loggedIn={loggedIn} />
+              ) : (
+                <Navigate replace to="/" />
+              )
+            }
+          />
+          <Route
+            path="/saved-movies"
+            element={
+              loggedIn ? (
+                <SavedMovies loggedIn={loggedIn} />
+              ) : (
+                <Navigate replace to="/" />
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              loggedIn ? (
+                <Profile loggedIn={loggedIn} onSignOut={signOut} />
+              ) : (
+                <Navigate replace to="/" />
+              )
+            }
+          />
           <Route
             path="/signin"
             element={
-              <Login
-                onLogin={handleLogin}
-                messageAuth={messageAuth}
-                isAuthSuccess={isAuthSuccess}
-              />
+              loggedIn ? (
+                <Navigate replace to="/movies" />
+              ) : (
+                <Login
+                  onLogin={handleLogin}
+                  messageAuth={messageAuth}
+                  loggedIn={loggedIn}
+                />
+              )
             }
           />
           <Route
             path="/signup"
             element={
-              <Register
+              loggedIn ? (
+                <Navigate replace to="/movies" />
+              ) : (
+                <Register
                 onRegister={handleRegistration}
                 messageAuth={messageAuth}
-                isAuthSuccess={isAuthSuccess}
+                loggedIn={loggedIn}
               />
+              )
             }
           />
           <Route path="*" element={<PageNotFound />} />

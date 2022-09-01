@@ -30,3 +30,14 @@ export const authorize = ( email, password ) => {
     body: JSON.stringify({ email, password })
   })
 };
+
+export const getContent = ( token ) => {
+  return createFetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  })
+};

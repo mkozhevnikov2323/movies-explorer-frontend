@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 import './FormAuth.css';
 
-export default function FormAuth({ typeAuth, onRegister, onLogin, messageAuth, isAuthSuccess }) {
+export default function FormAuth({ typeAuth, onRegister, onLogin, messageAuth, loggedIn }) {
   const [values, setValues] = useState({});
 
   function handleChange(e) {
@@ -47,7 +47,7 @@ export default function FormAuth({ typeAuth, onRegister, onLogin, messageAuth, i
         Пароль
         <input className='form__input' type='password' name='password' required onChange={handleChange}/>
       </label>
-      <span className="form__error">{messageAuth}</span>
+      <span className="form__error">{loggedIn ? '' : messageAuth}</span>
       {
         typeAuth === 'register' && (
           <button type='submit' className="form__button">
