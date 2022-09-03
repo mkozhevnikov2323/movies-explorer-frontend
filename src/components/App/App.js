@@ -71,7 +71,7 @@ export default function App() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     setMessageAuth('');
-    navigate('/signin');
+    navigate('/');
   }
 
   function tokenCheck() {
@@ -92,6 +92,17 @@ export default function App() {
           console.log(err);
         });
     }
+  }
+
+  function handleUpdateUser(userData) {
+    api
+      .updateUserInfo(userData)
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -123,7 +134,11 @@ export default function App() {
             path="/profile"
             element={
               loggedIn ? (
-                <Profile loggedIn={loggedIn} onSignOut={signOut} />
+                <Profile
+                  loggedIn={loggedIn}
+                  onSignOut={signOut}
+                  onUpdateUser={handleUpdateUser}
+                />
               ) : (
                 <Navigate replace to="/" />
               )
@@ -150,10 +165,10 @@ export default function App() {
                 <Navigate replace to="/movies" />
               ) : (
                 <Register
-                onRegister={handleRegistration}
-                messageAuth={messageAuth}
-                loggedIn={loggedIn}
-              />
+                  onRegister={handleRegistration}
+                  messageAuth={messageAuth}
+                  loggedIn={loggedIn}
+                />
               )
             }
           />

@@ -1,16 +1,61 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Header/Header';
 import './Profile.css';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
-export default function Profile({ loggedIn, onSignOut }) {
+export default function Profile({ loggedIn, onSignOut, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [editMode, setEditMode] = useState(false);
 
-  const handleEdit = (e) => {
+  useEffect(() => {
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (editMode && name === currentUser.name) {
+      setMessage('Уже сохранены текущие данные. Измените имя или email для обновления.')
+    } else if (editMode && name !== currentUser.name) {
+      setMessage('')
+    }
+  }, [currentUser.name, editMode, name]);
+
+  useEffect(() => {
+    if (editMode && email === currentUser.email) {
+      setMessage('Уже сохранены текущие данные. Измените имя или email для сохранения.')
+    } else if (editMode && email !== currentUser.email) {
+      setMessage('')
+    }
+  }, [currentUser.email, editMode, email]);
+
+  function handleNameChange(e) {
+    setName(e.target.value);
+  }
+
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
+
+  function handleEdit(e) {
     e.preventDefault();
     setEditMode(!editMode);
+    if (editMode) {
+      onUpdateUser({
+        name: name,
+        email: email,
+    });
+    }
+  }
+
+  function updateSaveMessage() {
+    setMessage('Данные пользователя успешно обновлены.');
+    setTimeout(() => {
+      setMessage('');
+    }, 2000)
   }
 
   return (
@@ -24,27 +69,32 @@ export default function Profile({ loggedIn, onSignOut }) {
               Имя
               <input
                 type="text"
+                name="name"
                 className="profile__input"
                 defaultValue={currentUser.name}
                 disabled={!editMode}
+                onChange={handleNameChange}
               />
             </label>
             <label className="profile__label">
               E-mail
               <input
                 type="text"
+                name="email"
                 className="profile__input"
                 defaultValue={currentUser.email}
                 disabled={!editMode}
+                onChange={handleEmailChange}
               />
             </label>
+            <span className={editMode ? ('profile__message') : ('profile__message profile__message_success')}>{ message }</span>
             {editMode ? (
-              <button type='button' className="profile__edit-btn">Сохранить</button>
+              <button type='submit' disabled={name === currentUser.name} className="profile__edit-btn" onClick={updateSaveMessage}>Сохранить</button>
             ) : (
-              <button type='button' className="profile__edit-btn">Редактировать</button>
+              <button type='submit' className="profile__edit-btn">Редактировать</button>
             )}
           </form>
-          <Link to="/signin" className="profile__logout-btn" onClick={onSignOut}>
+          <Link to="/" className="profile__logout-btn" onClick={onSignOut}>
             Выйти из аккаунта
           </Link>
         </div>
