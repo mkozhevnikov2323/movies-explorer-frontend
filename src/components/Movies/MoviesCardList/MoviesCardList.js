@@ -1,109 +1,51 @@
-import React from 'react';
-import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
-import Preloader from '../Preloader/Preloader';
+import React from "react";
+import "./MoviesCardList.css";
+import MoviesCard from "../MoviesCard/MoviesCard";
+import { useLocation } from "react-router-dom";
 
-const movies = [
-  {
-    image: 'https://ixbt.online/live/topics/preview/00/02/43/53/0e1be38918.jpg',
-    duration: 107,
-    nameRu: '33 слова о дизайне',
-    save: true,
-    _id: 1,
-  },
-  {
-    image:
-      'https://img.fredtvshow.com/img/movies/1473/watch-naomi-watts-jacob-tremblay-thrilling-first-trailer.jpg',
-    duration: 63,
-    nameRu: 'Киноальманах «100 лет дизайна»',
-    save: false,
-    _id: 2,
-  },
-  {
-    image: 'https://aboutcinema.ru/wp-content/uploads/2022/02/1600422962528.jpg',
-    duration: 102,
-    nameRu: 'В погоне за Бенкси',
-    save: false,
-    _id: 3,
-  },
-  {
-    image: 'https://ixbt.online/live/topics/preview/00/02/43/53/0e1be38918.jpg',
-    duration: 107,
-    nameRu: '33 слова о дизайне',
-    save: true,
-    _id: 4,
-  },
-  {
-    image:
-      'https://img.fredtvshow.com/img/movies/1473/watch-naomi-watts-jacob-tremblay-thrilling-first-trailer.jpg',
-    duration: 63,
-    nameRu: 'Киноальманах «100 лет дизайна»',
-    save: false,
-    _id: 5,
-  },
-  {
-    image: 'https://aboutcinema.ru/wp-content/uploads/2022/02/1600422962528.jpg',
-    duration: 102,
-    nameRu: 'В погоне за Бенкси',
-    save: false,
-    _id: 6,
-  },
-  {
-    image: 'https://ixbt.online/live/topics/preview/00/02/43/53/0e1be38918.jpg',
-    duration: 107,
-    nameRu: '33 слова о дизайне',
-    save: true,
-    _id: 7,
-  },
-  {
-    image:
-      'https://img.fredtvshow.com/img/movies/1473/watch-naomi-watts-jacob-tremblay-thrilling-first-trailer.jpg',
-    duration: 63,
-    nameRu: 'Киноальманах «100 лет дизайна»',
-    save: false,
-    _id: 8,
-  },
-  {
-    image: 'https://aboutcinema.ru/wp-content/uploads/2022/02/1600422962528.jpg',
-    duration: 102,
-    nameRu: 'В погоне за Бенкси',
-    save: false,
-    _id: 9,
-  },
-  {
-    image: 'https://ixbt.online/live/topics/preview/00/02/43/53/0e1be38918.jpg',
-    duration: 107,
-    nameRu: '33 слова о дизайне',
-    save: true,
-    _id: 10,
-  },
-  {
-    image:
-      'https://img.fredtvshow.com/img/movies/1473/watch-naomi-watts-jacob-tremblay-thrilling-first-trailer.jpg',
-    duration: 63,
-    nameRu: 'Киноальманах «100 лет дизайна»',
-    save: false,
-    _id: 11,
-  },
-  {
-    image: 'https://aboutcinema.ru/wp-content/uploads/2022/02/1600422962528.jpg',
-    duration: 102,
-    nameRu: 'В погоне за Бенкси',
-    save: false,
-    _id: 12,
-  },
-];
+export default function MoviesCardList({
+  films,
+  filmsShowed,
+  onShowMore,
+  handleAddFilm,
+  filmsSaved,
+  toggle,
+  filmsShort,
+}) {
+  const { pathname } = useLocation();
 
-const savedMovies = movies.filter((movie) => movie.save)
-
-export default function MoviesCardList({ savedMovie }) {
   return (
-    <section className='moviesCardList'>
-      {savedMovie ? (
-        savedMovies.map((movie) => <MoviesCard movie={movie} key={movie._id} />)
-      ) : (
-        movies.map((movie) => <MoviesCard movie={movie} key={movie._id} />)
+    <section className="moviesCardList">
+      {toggle
+        ? filmsShort.map((film) => (
+            <MoviesCard
+              key={film.id || film.movieId}
+              film={film}
+              likeMovies={handleAddFilm}
+              filmsSaved={filmsSaved}
+              toggle={toggle}
+            />
+          ))
+        : filmsShowed.map((film) => (
+            <MoviesCard
+              key={film.id || film.movieId}
+              film={film}
+              likeMovies={handleAddFilm}
+              filmsSaved={filmsSaved}
+              toggle={toggle}
+            />
+          ))}
+      {films.length > 0 && !toggle && pathname !== "/saved-movies" && (
+        <div className="movies__more">
+          <button
+            onClick={onShowMore}
+            type="button"
+            className="movies__more-btn"
+          >
+            Ещё
+          </button>
+        </div>
       )}
     </section>
-  )
+  );
 }

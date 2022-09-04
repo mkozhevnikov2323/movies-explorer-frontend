@@ -12,6 +12,10 @@
   grid-template-columns: 1fr 38px;
 }
 
+.movieCard__trailer-link {
+  grid-area: image;
+}
+
 .movieCard__image {
   width: 100%;
   max-height: 203px;

@@ -10,13 +10,14 @@ import Register from '../Register/Register';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import './App.css';
 import * as auth from '../../utils/auth';
-import * as api from '../../utils/api';
+import * as api from '../../utils/MainApi';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
   const navigate = useNavigate();
   const [messageAuth, setMessageAuth] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [moviesList, setMoviesList] = useState([]);
 
   useEffect(() => {
     tokenCheck()
@@ -105,6 +106,43 @@ export default function App() {
       });
   }
 
+  const onClickSaveMovie = async (movie, status, id) => {
+    if (status === 'delete') {
+      onClickDeleteMovie(id);
+      return;
+    }
+    const movieNew = {
+      ...movie,
+      image: `https://api.nomoreparties.co${movie.image.url}`,
+      thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+      movieId: movie.id,
+    };
+    delete movieNew.id;
+    delete movieNew.created_at;
+    delete movieNew.updated_at;
+    const response = await api.createMovie(movieNew);
+    if (response._id) {
+      setMoviesList((prev) => [...prev, response]);
+    // } else if (response.message === BAD_REQUEST_STATUS) {
+      // setMessageAcceptAuth(ERROR_MOVIES_VALID_DATA_MESSAGE);
+      // setInfoTooltip(true);
+    } else {
+      // setMessageAcceptAuth(ERROR_SERVER_MESSAGE_SHORT);
+      // setInfoTooltip(true);
+    }
+  }
+
+  const onClickDeleteMovie = async (id) => {
+    const response = await api.deleteMovie(id);
+    console.log(response)
+    // if (response.message === DELETE_MOVIE_MESSAGE) {
+    //   moviesList((prev) => prev.filter((el) => el._id !== id));
+    // } else {
+    //   // setIsAccept(false);
+    //   // setMessageAcceptAuth(ERROR_SERVER_MESSAGE_SHORT);
+    // }
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -114,7 +152,7 @@ export default function App() {
             path="/movies"
             element={
               loggedIn ? (
-                <Movies loggedIn={loggedIn} />
+                <Movies loggedIn={loggedIn} onClickSaveMovie={onClickSaveMovie} moviesList={moviesList}/>
               ) : (
                 <Navigate replace to="/" />
               )

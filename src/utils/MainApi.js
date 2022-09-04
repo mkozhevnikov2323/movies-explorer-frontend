@@ -1,15 +1,4 @@
-import { BASE_URL } from '../utils/consatnts'
-
-function createFetch(url, options) {
-  return fetch(url, options)
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-}
-
-const headersAuthorization = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${localStorage.getItem('token')}`,
-}
+import { BASE_URL, headersAuthorization, createFetch } from './consatnts';
 
 export const getUserInfo = () => {
   return createFetch(`${BASE_URL}/users/me`, {
