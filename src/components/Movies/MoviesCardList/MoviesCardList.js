@@ -4,40 +4,40 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
 
 export default function MoviesCardList({
-  films,
-  filmsShowed,
+  movies,
+  moviesShowed,
   onShowMore,
-  handleAddFilm,
-  filmsSaved,
-  toggle,
-  filmsShort,
+  handleAddMovieToSaved,
+  savedMovies,
+  checkboxFilter,
+  moviesShort,
 }) {
   const { pathname } = useLocation();
 
   return (
     <>
       <section className="moviesCardList">
-        {toggle
-          ? filmsShort.map((film) => (
+        {checkboxFilter
+          ? moviesShort.map((movie) => (
               <MoviesCard
-                key={film.id || film.movieId}
-                film={film}
-                likeMovies={handleAddFilm}
-                filmsSaved={filmsSaved}
-                toggle={toggle}
+                key={movie.id || movie.movieId}
+                movie={movie}
+                likeMovies={handleAddMovieToSaved}
+                savedMovies={savedMovies}
+                checkboxFilter={checkboxFilter}
               />
             ))
-          : filmsShowed.map((film) => (
+          : moviesShowed.map((movie) => (
               <MoviesCard
-                key={film.id || film.movieId}
-                film={film}
-                likeMovies={handleAddFilm}
-                filmsSaved={filmsSaved}
-                toggle={toggle}
+                key={movie.id || movie.movieId}
+                movie={movie}
+                likeMovies={handleAddMovieToSaved}
+                savedMovies={savedMovies}
+                checkboxFilter={checkboxFilter}
               />
             ))}
       </section>
-      {films.length > 0 && !toggle && pathname !== "/saved-movies" && (
+      {movies.length > 0 && !checkboxFilter && pathname !== "/saved-movies" && (
         <section className="movies__more">
           <button
             onClick={onShowMore}

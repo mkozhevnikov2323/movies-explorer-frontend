@@ -8,60 +8,60 @@ import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import { deleteMovie, getMovies } from "../../utils/MainApi";
 
 export default function SavedMovies({ loggedIn }) {
-  const [preloader, setPreloader] = useState(false);
+  const [showPreloader, setShowPreloader] = useState(false);
   const [errorText, setErrorText] = useState("");
-  const [films, setFilms] = useState([]);
-  const [filmsShowed, setFilmsShowed] = useState([]);
-  const [allFilms, setAllFilms] = useState([]);
-  const [toggle, setToggle] = useState(false);
-  const [filmsShort, setFilmsShort] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [moviesShowed, setMoviesShowed] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
+  const [checkboxFilter, setCheckboxFilter] = useState(false);
+  const [moviesShort, setMoviesShort] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [serverErrorMessage, setServerErrorMessage] = useState("");
 
   useEffect(() => {
     const getMoviesSave = async () => {
-      setPreloader(true);
+      setShowPreloader(true);
       try {
         const data = await getMovies();
-        setAllFilms(data);
-        setFilmsShowed(data);
-        setFilmsShort(data.filter(({ duration }) => duration <= 40));
+        setAllMovies(data);
+        setMoviesShowed(data);
+        setMoviesShort(data.filter(({ duration }) => duration <= 40));
         setServerErrorMessage("");
       } catch (err) {
         console.log("Error", err);
         setServerErrorMessage("Ошибка получения сохраненных фильмов!");
       } finally {
-        setPreloader(false);
+        setShowPreloader(false);
       }
     };
     getMoviesSave();
   }, []);
 
-  const handleSearchFilms = (input) => {
-    const filterData = allFilms.filter(({ nameRU }) =>
-      nameRU.toLowerCase().includes(input.toLowerCase())
+  const handleSearchOfMovies = (dataFromSearchForm) => {
+    const filterData = allMovies.filter(({ nameRU }) =>
+      nameRU.toLowerCase().includes(dataFromSearchForm.toLowerCase())
     );
     const shortFilterData = filterData.filter(({ duration }) => duration <= 40);
     filterData.length <= 0
       ? setErrorMessage("Ничего не найдено")
       : setErrorMessage("");
-    if (!input) {
+    if (!dataFromSearchForm) {
       setErrorText("Поле пустое");
-      setPreloader(false);
+      setShowPreloader(false);
     } else {
       setErrorText("");
     }
-    setFilmsShowed(filterData);
-    setFilmsShort(shortFilterData);
+    setMoviesShowed(filterData);
+    setMoviesShort(shortFilterData);
   };
 
-  async function handleAddFilm(film, favorite) {
-    if (!favorite) {
+  async function handleAddMovieToSaved(movie, isLiked) {
+    if (!isLiked) {
       try {
-        await deleteMovie(film._id);
-        const newFilms = await getMovies();
-        setFilmsShowed(newFilms);
-        setFilms(newFilms);
+        await deleteMovie(movie._id);
+        const newMovies = await getMovies();
+        setMoviesShowed(newMovies);
+        setMovies(newMovies);
         setServerErrorMessage("");
       } catch (err) {
         setServerErrorMessage("Ошибка удаления фильма!");
@@ -74,27 +74,27 @@ export default function SavedMovies({ loggedIn }) {
       <Header login={true} loggedIn={loggedIn} />
       <main className="savedMovies">
         <SearchForm
-          onSearchFilms={handleSearchFilms}
-          toggle={toggle}
-          setToggle={setToggle}
+          handleSearchOfMovies={handleSearchOfMovies}
+          checkboxFilter={checkboxFilter}
+          setCheckboxFilter={setCheckboxFilter}
           errorText={errorText}
         />
-        {preloader && <Preloader />}
+        {showPreloader && <Preloader />}
         {errorMessage && (
           <div className="movies__card-text">Ничего не найдено</div>
         )}
         {serverErrorMessage && (
           <div className="movies__card-text">{serverErrorMessage}</div>
         )}
-        {!preloader && !errorText && (
+        {!showPreloader && !errorText && (
           <MoviesCardList
-            films={allFilms}
-            filmsShowed={filmsShowed}
-            filmsRemain={films}
-            filmsSaved={allFilms}
-            handleAddFilm={handleAddFilm}
-            filmsShort={filmsShort}
-            toggle={toggle}
+            movies={allMovies}
+            moviesShowed={moviesShowed}
+            moviesRemain={movies}
+            savedMovies={allMovies}
+            handleAddMovieToSaved={handleAddMovieToSaved}
+            moviesShort={moviesShort}
+            checkboxFilter={checkboxFilter}
           />
         )}
       </main>

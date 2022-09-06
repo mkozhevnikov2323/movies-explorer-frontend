@@ -4,40 +4,40 @@ import "./SearchForm.css";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 
 export default function SearchForm({
-  onSearchFilms,
+  handleSearchOfMovies,
   errorText,
   handleChangeTumbler,
-  toggle,
-  setToggle,
-  onChangeToggle,
+  checkboxFilter,
+  setCheckboxFilter,
+  handleChangeCheckboxFilter,
 }) {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchFormData, setSearchFormData] = useState("");
   const { pathname } = useLocation();
 
-  const searchFilms = (e) => {
+  const searchMovies = (e) => {
     e.preventDefault();
-    onSearchFilms(searchInput);
+    handleSearchOfMovies(searchFormData);
   };
 
   const onChange = (e) => {
-    setSearchInput(e.target.value);
+    setSearchFormData(e.target.value);
   };
 
   useEffect(() => {
     pathname !== "/saved-movies" &&
-      setSearchInput(localStorage.getItem("input"));
+      setSearchFormData(localStorage.getItem("dataFromSearchForm"));
   }, []);
 
   return (
     <section className="searchForm">
-      <form className="searchForm__form" noValidate onSubmit={searchFilms}>
+      <form className="searchForm__form" noValidate onSubmit={searchMovies}>
         <input
           type="text"
           name="text"
           className="searchForm__input"
           placeholder="Фильм"
           required
-          value={searchInput}
+          value={searchFormData}
           onChange={onChange}
         />
         <button type="submit" className="searchForm__button">
@@ -45,11 +45,11 @@ export default function SearchForm({
         </button>
       </form>
       <FilterCheckbox
-        toggle={toggle}
-        setToggle={setToggle}
-        value={toggle}
+        checkboxFilter={checkboxFilter}
+        setCheckboxFilter={setCheckboxFilter}
+        value={checkboxFilter}
         handleChangeTumbler={handleChangeTumbler}
-        onChangeToggle={onChangeToggle}
+        handleChangeCheckboxFilter={handleChangeCheckboxFilter}
       />
       {errorText && <span className="search-form-error">{errorText}</span>}
     </section>

@@ -2,27 +2,27 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./FilterCheckbox.css";
 
-export default function FilterCheckbox({ setToggle, toggle, onChangeToggle }) {
+export default function FilterCheckbox({ setCheckboxFilter, checkboxFilter, handleChangeCheckboxFilter }) {
   const { pathname } = useLocation();
 
   const onChangeTumbler = () => {
-    setToggle(!toggle);
-    pathname !== "/saved-movies" && onChangeToggle();
+    setCheckboxFilter(!checkboxFilter);
+    pathname !== "/saved-movies" && handleChangeCheckboxFilter();
   };
 
-  const localStorageToggle = localStorage.getItem("toggle");
+  const localStorageToggle = localStorage.getItem("checkboxFilter");
 
   useEffect(() => {
-    pathname !== "/saved-movies" && setToggle(localStorageToggle === "true");
+    pathname !== "/saved-movies" && setCheckboxFilter(localStorageToggle === "true");
   }, []);
 
   return (
     <div className="filterCheckbox">
       <input
         type="checkbox"
-        value={toggle}
+        value={checkboxFilter}
         onChange={onChangeTumbler}
-        checked={toggle}
+        checked={checkboxFilter}
         id="switcher"
         className="filterCheckbox__input"
       />
