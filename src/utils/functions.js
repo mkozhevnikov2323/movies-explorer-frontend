@@ -1,4 +1,3 @@
-// Расчет кол-ва карточек на экран + добавление карточек
 export const getQuantityOfMovieCard = () => {
   let quantityOfMovieCard;
   const clientWidth = document.documentElement.clientWidth;
@@ -14,3 +13,9 @@ export const getQuantityOfMovieCard = () => {
   return quantityOfMovieCard;
 };
 
+export const convertToHoursAndMinutes = (totalMinutes) => {
+  const minutes = totalMinutes % 60;
+  const hours = Math.floor(totalMinutes / 60);
+
+  return `${hours}ч ${minutes}м`;
+}

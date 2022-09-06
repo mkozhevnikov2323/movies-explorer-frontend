@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./SearchForm.css";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
+import { SAVED_MOVIES_PATH } from "../../../utils/consatnts";
 
 export default function SearchForm({
   handleSearchOfMovies,
@@ -24,7 +25,7 @@ export default function SearchForm({
   };
 
   useEffect(() => {
-    pathname !== "/saved-movies" &&
+    pathname !== SAVED_MOVIES_PATH &&
       setSearchFormData(localStorage.getItem("dataFromSearchForm"));
   }, []);
 

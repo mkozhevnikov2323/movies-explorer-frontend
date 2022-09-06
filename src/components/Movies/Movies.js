@@ -8,6 +8,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import { getMoviesFromBeat } from '../../utils/movieApi';
 import { getMovies, createMovie, deleteMovie } from '../../utils/MainApi';
 import { getQuantityOfMovieCard } from '../../utils/functions';
+import { URL_MOVIES_DOMAIN } from '../../utils/consatnts';
 
 export default function Movies({ loggedIn }) {
   const [movies, setMovies] = useState([]);
@@ -77,9 +78,9 @@ export default function Movies({ loggedIn }) {
         duration: movie.duration,
         year: movie.year,
         description: movie.description,
-        image: "https://api.nomoreparties.co" + movie.image.url,
+        image: URL_MOVIES_DOMAIN + movie.image.url,
         trailerLink: movie.trailerLink,
-        thumbnail: "https://api.nomoreparties.co" + movie.image.url,
+        thumbnail: URL_MOVIES_DOMAIN + movie.image.url,
         movieId: movie.id.toString(),
         nameRU: movie.nameRU,
         nameEN: movie.nameEN || "Неизвестно" || null,

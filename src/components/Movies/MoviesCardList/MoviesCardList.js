@@ -2,6 +2,7 @@ import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
+import { SAVED_MOVIES_PATH } from "../../../utils/consatnts";
 
 export default function MoviesCardList({
   movies,
@@ -37,7 +38,7 @@ export default function MoviesCardList({
               />
             ))}
       </section>
-      {movies.length > 0 && !checkboxFilter && pathname !== "/saved-movies" && (
+      {movies.length > 0 && !checkboxFilter && pathname !== SAVED_MOVIES_PATH && (
         <section className="movies__more">
           <button
             onClick={onShowMore}

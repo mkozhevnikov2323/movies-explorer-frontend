@@ -11,6 +11,7 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import './App.css';
 import * as auth from '../../utils/auth';
 import * as api from '../../utils/MainApi';
+import { URL_MOVIES_DOMAIN } from '../../utils/consatnts';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -113,8 +114,8 @@ export default function App() {
     }
     const movieNew = {
       ...movie,
-      image: `https://api.nomoreparties.co${movie.image.url}`,
-      thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+      image: `${URL_MOVIES_DOMAIN}${movie.image.url}`,
+      thumbnail: `${URL_MOVIES_DOMAIN}${movie.image.formats.thumbnail.url}`,
       movieId: movie.id,
     };
     delete movieNew.id;
