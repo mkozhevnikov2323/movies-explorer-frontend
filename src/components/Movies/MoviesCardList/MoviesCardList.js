@@ -15,28 +15,30 @@ export default function MoviesCardList({
   const { pathname } = useLocation();
 
   return (
-    <section className="moviesCardList">
-      {toggle
-        ? filmsShort.map((film) => (
-            <MoviesCard
-              key={film.id || film.movieId}
-              film={film}
-              likeMovies={handleAddFilm}
-              filmsSaved={filmsSaved}
-              toggle={toggle}
-            />
-          ))
-        : filmsShowed.map((film) => (
-            <MoviesCard
-              key={film.id || film.movieId}
-              film={film}
-              likeMovies={handleAddFilm}
-              filmsSaved={filmsSaved}
-              toggle={toggle}
-            />
-          ))}
+    <>
+      <section className="moviesCardList">
+        {toggle
+          ? filmsShort.map((film) => (
+              <MoviesCard
+                key={film.id || film.movieId}
+                film={film}
+                likeMovies={handleAddFilm}
+                filmsSaved={filmsSaved}
+                toggle={toggle}
+              />
+            ))
+          : filmsShowed.map((film) => (
+              <MoviesCard
+                key={film.id || film.movieId}
+                film={film}
+                likeMovies={handleAddFilm}
+                filmsSaved={filmsSaved}
+                toggle={toggle}
+              />
+            ))}
+      </section>
       {films.length > 0 && !toggle && pathname !== "/saved-movies" && (
-        <div className="movies__more">
+        <section className="movies__more">
           <button
             onClick={onShowMore}
             type="button"
@@ -44,8 +46,8 @@ export default function MoviesCardList({
           >
             Ещё
           </button>
-        </div>
+        </section>
       )}
-    </section>
+    </>
   );
 }
