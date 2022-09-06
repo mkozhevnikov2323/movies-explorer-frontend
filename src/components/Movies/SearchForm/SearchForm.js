@@ -52,7 +52,7 @@ export default function SearchForm({
         handleChangeTumbler={handleChangeTumbler}
         handleChangeCheckboxFilter={handleChangeCheckboxFilter}
       />
-      {errorText && <span className="search-form-error">{errorText}</span>}
+      {errorText && <span className="searchForm_error-message">{errorText}</span>}
     </section>
   );
 }

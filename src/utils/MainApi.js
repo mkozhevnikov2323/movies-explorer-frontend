@@ -1,4 +1,5 @@
-import { BASE_URL, headersAuthorization, createFetch } from './consatnts';
+import { BASE_URL, headersAuthorization } from './consatnts';
+import { createFetch } from './functions';
 
 export const getUserInfo = () => {
   return createFetch(`${BASE_URL}/users/me`, {

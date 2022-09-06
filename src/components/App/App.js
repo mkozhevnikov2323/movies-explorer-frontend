@@ -11,14 +11,13 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import './App.css';
 import * as auth from '../../utils/auth';
 import * as api from '../../utils/MainApi';
-import { URL_MOVIES_DOMAIN } from '../../utils/consatnts';
+import { REG_SUCCESS_MESSAGE, ERROR_CONFLICT_MESSAGE, ERROR_CONFLICT_STATUS, ERROR_VALIDATION_STATUS, ERROR_VALIDATION_MESSAGE, ERROR_SERVER_MESSAGE, AUTH_SUCCESS_MESSAGE } from '../../utils/consatnts';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
   const navigate = useNavigate();
   const [messageAuth, setMessageAuth] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
-  const [moviesList, setMoviesList] = useState([]);
 
   useEffect(() => {
     tokenCheck()
@@ -31,21 +30,21 @@ export default function App() {
       password: regData.password
     })
       .then(() => {
-        setMessageAuth('Вы успешно зарегистрировались.');
+        setMessageAuth(REG_SUCCESS_MESSAGE);
       })
       .then(() => {
         handleLogin(regData.email, regData.password);
       })
       .catch((err) => {
         console.log(err);
-        if (err === 'Ошибка: 409') {
-          setMessageAuth('Пользователь с данным E-mail присутствует в базе.');
+        if (err === ERROR_CONFLICT_STATUS) {
+          setMessageAuth(ERROR_CONFLICT_MESSAGE);
         }
-        else if (err === 'Ошибка: 400') {
-          setMessageAuth('Ошибка валидации.');
+        else if (err === ERROR_VALIDATION_STATUS) {
+          setMessageAuth(ERROR_VALIDATION_MESSAGE);
         }
         else {
-          setMessageAuth('Произошла ошибка на сервере.');
+          setMessageAuth(ERROR_SERVER_MESSAGE);
         }
       });
   }
@@ -56,7 +55,7 @@ export default function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
-          setMessageAuth('Вы успешно вошли.');
+          setMessageAuth(AUTH_SUCCESS_MESSAGE);
           setLoggedIn(true)
         }
       })
@@ -65,7 +64,7 @@ export default function App() {
       })
       .catch((err) => {
         console.log(err);
-        setMessageAuth('Ошибка валидации.')
+        setMessageAuth(ERROR_VALIDATION_MESSAGE)
       });
   }
 
@@ -107,43 +106,6 @@ export default function App() {
       });
   }
 
-  const onClickSaveMovie = async (movie, status, id) => {
-    if (status === 'delete') {
-      onClickDeleteMovie(id);
-      return;
-    }
-    const movieNew = {
-      ...movie,
-      image: `${URL_MOVIES_DOMAIN}${movie.image.url}`,
-      thumbnail: `${URL_MOVIES_DOMAIN}${movie.image.formats.thumbnail.url}`,
-      movieId: movie.id,
-    };
-    delete movieNew.id;
-    delete movieNew.created_at;
-    delete movieNew.updated_at;
-    const response = await api.createMovie(movieNew);
-    if (response._id) {
-      setMoviesList((prev) => [...prev, response]);
-    // } else if (response.message === BAD_REQUEST_STATUS) {
-      // setMessageAcceptAuth(ERROR_MOVIES_VALID_DATA_MESSAGE);
-      // setInfoTooltip(true);
-    } else {
-      // setMessageAcceptAuth(ERROR_SERVER_MESSAGE_SHORT);
-      // setInfoTooltip(true);
-    }
-  }
-
-  const onClickDeleteMovie = async (id) => {
-    const response = await api.deleteMovie(id);
-    console.log(response)
-    // if (response.message === DELETE_MOVIE_MESSAGE) {
-    //   moviesList((prev) => prev.filter((el) => el._id !== id));
-    // } else {
-    //   // setIsAccept(false);
-    //   // setMessageAcceptAuth(ERROR_SERVER_MESSAGE_SHORT);
-    // }
-  }
-
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -153,7 +115,7 @@ export default function App() {
             path="/movies"
             element={
               loggedIn ? (
-                <Movies loggedIn={loggedIn} onClickSaveMovie={onClickSaveMovie} moviesList={moviesList}/>
+                <Movies loggedIn={loggedIn}/>
               ) : (
                 <Navigate replace to="/" />
               )

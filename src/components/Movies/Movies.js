@@ -8,7 +8,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import { getMoviesFromBeat } from '../../utils/movieApi';
 import { getMovies, createMovie, deleteMovie } from '../../utils/MainApi';
 import { getQuantityOfMovieCard } from '../../utils/functions';
-import { URL_MOVIES_DOMAIN } from '../../utils/consatnts';
+import { URL_MOVIES_DOMAIN, NOT_FOUND_SEARCH_MESSAGE, SHORT_MOVIE_DURATION, ERROR_SEARCH_EMPTY_MESSAGE, ERROR_SAVE_MOVIES, ERROR_DELETE_MOVIES, ERROR_GET_MOVIES } from '../../utils/consatnts';
 
 export default function Movies({ loggedIn }) {
   const [movies, setMovies] = useState([]);
@@ -36,7 +36,7 @@ export default function Movies({ loggedIn }) {
     setShowPreloader(true);
     setWasSearch(false);
     if (!dataFromSearchForm) {
-      setTextErrorForSearch("Поле пустое");
+      setTextErrorForSearch(ERROR_SEARCH_EMPTY_MESSAGE);
       setShowPreloader(false);
     }
     getMoviesFromBeat()
@@ -45,10 +45,10 @@ export default function Movies({ loggedIn }) {
           nameRU.toLowerCase().includes(dataFromSearchForm.toLowerCase())
         );
         if (!moviesAfterFilter.length) {
-          setErrorMessage("Ничего не найдено");
+          setErrorMessage(NOT_FOUND_SEARCH_MESSAGE);
         }
         const moviesWithShort = moviesAfterFilter.filter(
-          ({ duration }) => duration <= 40
+          ({ duration }) => duration <= SHORT_MOVIE_DURATION
         );
         setMovies(moviesAfterFilter);
         localStorage.setItem("movies", JSON.stringify(moviesAfterFilter));
@@ -87,12 +87,12 @@ export default function Movies({ loggedIn }) {
       };
       try {
         await createMovie(movieInfo);
-        const newsavedMovied = await getMovies();
-        setSavedMovies(newsavedMovied);
+        const newSavedMovie = await getMovies();
+        setSavedMovies(newSavedMovie);
         setServerErrorMessage("");
       } catch (err) {
-        console.log("Ошибка добавления фильма", err);
-        setServerErrorMessage("Ошибка добавления выбраного фильма");
+        console.log(ERROR_SAVE_MOVIES, err);
+        setServerErrorMessage(ERROR_SAVE_MOVIES);
       }
     } else {
       try {
@@ -101,13 +101,12 @@ export default function Movies({ loggedIn }) {
         setSavedMovies(savedMovies);
         setServerErrorMessage("");
       } catch (err) {
-        console.log("Ошибка удаления фильма", err);
-        setServerErrorMessage("Ошибка удаления фильма");
+        console.log(ERROR_DELETE_MOVIES, err);
+        setServerErrorMessage(ERROR_DELETE_MOVIES);
       }
     }
   }
 
-  // Достаем сохранненые фильмы + сохраняем фильмы с локальное хранилище
   useEffect(() => {
     getMovies()
       .then((movies) => {
@@ -116,7 +115,7 @@ export default function Movies({ loggedIn }) {
       })
       .catch((err) => {
         console.log("Error", err);
-        setServerErrorMessage("Ошибка получения сохранненых фильмов");
+        setServerErrorMessage(ERROR_GET_MOVIES);
       });
 
     const localMovies = localStorage.getItem("movies");
@@ -143,10 +142,10 @@ export default function Movies({ loggedIn }) {
         />
         {showPreloader && <Preloader />}
         {errorMessage && (
-          <div className="movies__card-text">Ничего не найдено</div>
+          <div className="movies__error-message">{NOT_FOUND_SEARCH_MESSAGE}</div>
         )}
         {serverErrorMessage && (
-          <div className="movies__card-text">{serverErrorMessage}</div>
+          <div className="movies__error-message">{serverErrorMessage}</div>
         )}
         {!showPreloader && !textErrorForSearch && (
           <MoviesCardList

@@ -1,3 +1,8 @@
+export function createFetch(url, options) {
+  return fetch(url, options)
+    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+}
+
 export const getQuantityOfMovieCard = () => {
   let quantityOfMovieCard;
   const clientWidth = document.documentElement.clientWidth;

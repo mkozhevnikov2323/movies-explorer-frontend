@@ -1,9 +1,5 @@
 import { BASE_URL } from '../utils/consatnts'
-
-function createFetch(url, options) {
-  return fetch(url, options)
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-}
+import { createFetch } from './functions';
 
 export const register = ({ name, email, password }) => {
   return createFetch(`${BASE_URL}/signup`, {

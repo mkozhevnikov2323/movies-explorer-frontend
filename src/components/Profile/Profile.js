@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../Header/Header';
 import './Profile.css';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
+import { CHANGE_AUTH_PROCESS_MESSAGE, CHANGE_AUTH_SUCCESS_MESSAGE } from '../../utils/consatnts';
 
 export default function Profile({ loggedIn, onSignOut, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
@@ -18,7 +19,7 @@ export default function Profile({ loggedIn, onSignOut, onUpdateUser }) {
 
   useEffect(() => {
     if (editMode && name === currentUser.name) {
-      setMessage('Уже сохранены текущие данные. Измените имя или email для обновления.')
+      setMessage(CHANGE_AUTH_PROCESS_MESSAGE)
     } else if (editMode && name !== currentUser.name) {
       setMessage('')
     }
@@ -26,7 +27,7 @@ export default function Profile({ loggedIn, onSignOut, onUpdateUser }) {
 
   useEffect(() => {
     if (editMode && email === currentUser.email) {
-      setMessage('Уже сохранены текущие данные. Измените имя или email для сохранения.')
+      setMessage(CHANGE_AUTH_PROCESS_MESSAGE)
     } else if (editMode && email !== currentUser.email) {
       setMessage('')
     }
@@ -52,7 +53,7 @@ export default function Profile({ loggedIn, onSignOut, onUpdateUser }) {
   }
 
   function updateSaveMessage() {
-    setMessage('Данные пользователя успешно обновлены.');
+    setMessage(CHANGE_AUTH_SUCCESS_MESSAGE);
     setTimeout(() => {
       setMessage('');
     }, 2000)

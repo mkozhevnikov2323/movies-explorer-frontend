@@ -1,4 +1,5 @@
-import { BASE_URL_MOVIES, createFetch } from './consatnts';
+import { BASE_URL_MOVIES } from './consatnts';
+import { createFetch } from './functions';
 
 export const getMoviesFromBeat = () => {
   return createFetch(`${BASE_URL_MOVIES}`, {

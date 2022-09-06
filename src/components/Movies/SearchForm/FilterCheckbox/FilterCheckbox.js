@@ -11,10 +11,10 @@ export default function FilterCheckbox({ setCheckboxFilter, checkboxFilter, hand
     pathname !== SAVED_MOVIES_PATH && handleChangeCheckboxFilter();
   };
 
-  const localStorageToggle = localStorage.getItem("checkboxFilter");
+  const localCheckboxData = localStorage.getItem("checkboxFilter");
 
   useEffect(() => {
-    pathname !== SAVED_MOVIES_PATH && setCheckboxFilter(localStorageToggle === "true");
+    pathname !== SAVED_MOVIES_PATH && setCheckboxFilter(localCheckboxData === "true");
   }, []);
 
   return (

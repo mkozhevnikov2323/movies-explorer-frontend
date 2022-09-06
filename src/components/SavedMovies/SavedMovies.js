@@ -6,6 +6,7 @@ import Preloader from "../Movies/Preloader/Preloader";
 import SearchForm from "../Movies/SearchForm/SearchForm";
 import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import { deleteMovie, getMovies } from "../../utils/MainApi";
+import { SHORT_MOVIE_DURATION, ERROR_GET_MOVIES, NOT_FOUND_SEARCH_MESSAGE, ERROR_SEARCH_EMPTY_MESSAGE, ERROR_DELETE_MOVIES } from "../../utils/consatnts";
 
 export default function SavedMovies({ loggedIn }) {
   const [showPreloader, setShowPreloader] = useState(false);
@@ -25,11 +26,11 @@ export default function SavedMovies({ loggedIn }) {
         const data = await getMovies();
         setAllMovies(data);
         setMoviesShowed(data);
-        setMoviesShort(data.filter(({ duration }) => duration <= 40));
+        setMoviesShort(data.filter(({ duration }) => duration <= SHORT_MOVIE_DURATION));
         setServerErrorMessage("");
       } catch (err) {
-        console.log("Error", err);
-        setServerErrorMessage("Ошибка получения сохраненных фильмов!");
+        console.log(ERROR_GET_MOVIES, err);
+        setServerErrorMessage(ERROR_GET_MOVIES);
       } finally {
         setShowPreloader(false);
       }
@@ -41,12 +42,12 @@ export default function SavedMovies({ loggedIn }) {
     const filterData = allMovies.filter(({ nameRU }) =>
       nameRU.toLowerCase().includes(dataFromSearchForm.toLowerCase())
     );
-    const shortFilterData = filterData.filter(({ duration }) => duration <= 40);
+    const shortFilterData = filterData.filter(({ duration }) => duration <= SHORT_MOVIE_DURATION);
     filterData.length <= 0
-      ? setErrorMessage("Ничего не найдено")
+      ? setErrorMessage(NOT_FOUND_SEARCH_MESSAGE)
       : setErrorMessage("");
     if (!dataFromSearchForm) {
-      setErrorText("Поле пустое");
+      setErrorText(ERROR_SEARCH_EMPTY_MESSAGE);
       setShowPreloader(false);
     } else {
       setErrorText("");
@@ -64,8 +65,8 @@ export default function SavedMovies({ loggedIn }) {
         setMovies(newMovies);
         setServerErrorMessage("");
       } catch (err) {
-        setServerErrorMessage("Ошибка удаления фильма!");
-        console.log(`Ошибка удаления фильма`, err);
+        setServerErrorMessage(ERROR_DELETE_MOVIES);
+        console.log(ERROR_DELETE_MOVIES, err);
       }
     }
   }
@@ -81,10 +82,10 @@ export default function SavedMovies({ loggedIn }) {
         />
         {showPreloader && <Preloader />}
         {errorMessage && (
-          <div className="movies__card-text">Ничего не найдено</div>
+          <div className="movies__error-message">{NOT_FOUND_SEARCH_MESSAGE}</div>
         )}
         {serverErrorMessage && (
-          <div className="movies__card-text">{serverErrorMessage}</div>
+          <div className="movies__error-message">{serverErrorMessage}</div>
         )}
         {!showPreloader && !errorText && (
           <MoviesCardList

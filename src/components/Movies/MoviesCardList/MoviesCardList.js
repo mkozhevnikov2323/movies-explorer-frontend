@@ -15,28 +15,24 @@ export default function MoviesCardList({
 }) {
   const { pathname } = useLocation();
 
+  function renderCard(movieList) {
+    return movieList.map((movie) => (
+      <MoviesCard
+        key={movie.id || movie.movieId}
+        movie={movie}
+        likeMovies={handleAddMovieToSaved}
+        savedMovies={savedMovies}
+        checkboxFilter={checkboxFilter}
+      />
+    ))
+  }
+
   return (
     <>
       <section className="moviesCardList">
         {checkboxFilter
-          ? moviesShort.map((movie) => (
-              <MoviesCard
-                key={movie.id || movie.movieId}
-                movie={movie}
-                likeMovies={handleAddMovieToSaved}
-                savedMovies={savedMovies}
-                checkboxFilter={checkboxFilter}
-              />
-            ))
-          : moviesShowed.map((movie) => (
-              <MoviesCard
-                key={movie.id || movie.movieId}
-                movie={movie}
-                likeMovies={handleAddMovieToSaved}
-                savedMovies={savedMovies}
-                checkboxFilter={checkboxFilter}
-              />
-            ))}
+          ? renderCard(moviesShort)
+          : renderCard(moviesShowed)}
       </section>
       {movies.length > 0 && !checkboxFilter && pathname !== SAVED_MOVIES_PATH && (
         <section className="movies__more">
