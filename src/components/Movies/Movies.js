@@ -102,7 +102,6 @@ export default function Movies({ loggedIn }) {
         setServerErrorMessage("");
       } catch (err) {
         console.log(ERROR_DELETE_MOVIES, err);
-        setServerErrorMessage(ERROR_DELETE_MOVIES);
       }
     }
   }
