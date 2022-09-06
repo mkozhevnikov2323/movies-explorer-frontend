@@ -1,6 +1,7 @@
 .movies {
   background-color: rgba(32, 32, 32, 1);
   padding: 70px 70px 80px;
+  flex-grow: 1;
 }
 
 .movies__more {
