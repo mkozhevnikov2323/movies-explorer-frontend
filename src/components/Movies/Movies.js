@@ -8,7 +8,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import { getMoviesFromBeat } from '../../utils/movieApi';
 import { getMovies, createMovie, deleteMovie } from '../../utils/MainApi';
 import { getQuantityOfMovieCard } from '../../utils/functions';
-import { URL_MOVIES_DOMAIN, NOT_FOUND_SEARCH_MESSAGE, SHORT_MOVIE_DURATION, ERROR_SEARCH_EMPTY_MESSAGE, ERROR_SAVE_MOVIES, ERROR_DELETE_MOVIES, ERROR_GET_MOVIES } from '../../utils/consatnts';
+import { URL_MOVIES_DOMAIN, NOT_FOUND_SEARCH_MESSAGE, SHORT_MOVIE_DURATION, ERROR_SEARCH_EMPTY_MESSAGE, ERROR_SAVE_MOVIES, ERROR_DELETE_MOVIES, ERROR_GET_MOVIES, ERROR_SERVER_MESSAGE } from '../../utils/consatnts';
 
 export default function Movies({ loggedIn }) {
   const [movies, setMovies] = useState([]);
@@ -38,6 +38,8 @@ export default function Movies({ loggedIn }) {
     if (!dataFromSearchForm) {
       setTextErrorForSearch(ERROR_SEARCH_EMPTY_MESSAGE);
       setShowPreloader(false);
+    } else {
+      setTextErrorForSearch("");
     }
     getMoviesFromBeat()
       .then((res) => {
@@ -46,6 +48,8 @@ export default function Movies({ loggedIn }) {
         );
         if (!moviesAfterFilter.length) {
           setErrorMessage(NOT_FOUND_SEARCH_MESSAGE);
+        } else {
+          setErrorMessage("");
         }
         const moviesWithShort = moviesAfterFilter.filter(
           ({ duration }) => duration <= SHORT_MOVIE_DURATION
@@ -58,6 +62,11 @@ export default function Movies({ loggedIn }) {
         setMoviesShort([...moviesWithShort].splice(0, quantityOfMovieCard[0]));
         setServerErrorMessage('')
         setWasSearch(true);
+      })
+      .catch((err) => {
+        setServerErrorMessage(ERROR_SERVER_MESSAGE);
+        setShowPreloader(false);
+        console.log(ERROR_SERVER_MESSAGE, err);
       })
   }
 
