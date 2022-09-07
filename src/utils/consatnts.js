@@ -17,9 +17,3 @@ export const ERROR_DELETE_MOVIES = 'Нельзя удалить чужой со�
 export const NOT_FOUND_SEARCH_MESSAGE = 'Ничего не найдено';
 export const CHANGE_AUTH_PROCESS_MESSAGE = 'Уже сохранены текущие данные. Измените имя или email для обновления.';
 export const CHANGE_AUTH_SUCCESS_MESSAGE = 'Данные пользователя успешно обновлены.';
-
-export const headersAuthorization = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${localStorage.getItem('token')}`,
-}

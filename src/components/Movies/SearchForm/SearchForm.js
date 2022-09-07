@@ -27,7 +27,7 @@ export default function SearchForm({
   useEffect(() => {
     pathname !== SAVED_MOVIES_PATH &&
       setSearchFormData(localStorage.getItem("dataFromSearchForm"));
-  }, []);
+  }, [pathname]);
 
   return (
     <section className="searchForm">
@@ -38,7 +38,7 @@ export default function SearchForm({
           className="searchForm__input"
           placeholder="Фильм"
           required
-          value={searchFormData}
+          value={searchFormData ? searchFormData : ''}
           onChange={onChange}
         />
         <button type="submit" className="searchForm__button">
