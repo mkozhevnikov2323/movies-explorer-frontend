@@ -34,6 +34,7 @@ export default function Movies({ loggedIn }) {
 
   function handleSearchOfMovies(dataFromSearchForm) {
     setShowPreloader(true);
+    setErrorMessage("");
     setWasSearch(false);
     if (!dataFromSearchForm) {
       setTextErrorForSearch(ERROR_SEARCH_EMPTY_MESSAGE);

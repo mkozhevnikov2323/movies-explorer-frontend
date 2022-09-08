@@ -70,8 +70,12 @@ export default function App() {
 
   function signOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('dataFromSearchForm');
+    localStorage.removeItem('checkboxFilter');
+    localStorage.removeItem('movies');
     setLoggedIn(false);
     setMessageAuth('');
+    setLoggedIn(false);
     navigate('/');
   }
 
