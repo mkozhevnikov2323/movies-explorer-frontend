@@ -23,10 +23,12 @@ export default function SavedMovies({ loggedIn }) {
     const getMoviesSave = async () => {
       setShowPreloader(true);
       try {
+        const userId = localStorage.getItem("userId");
         const data = await getMovies();
-        setAllMovies(data);
-        setMoviesShowed(data);
-        setMoviesShort(data.filter(({ duration }) => duration <= SHORT_MOVIE_DURATION));
+        const userMovies = data.filter(({ owner }) => owner === userId);
+        setAllMovies(userMovies);
+        setMoviesShowed(userMovies);
+        setMoviesShort(userMovies.filter(({ duration }) => duration <= SHORT_MOVIE_DURATION));
         setServerErrorMessage("");
       } catch (err) {
         console.log(ERROR_GET_MOVIES, err);
@@ -59,10 +61,12 @@ export default function SavedMovies({ loggedIn }) {
   async function handleAddMovieToSaved(movie, isLiked) {
     if (!isLiked) {
       try {
+        const userId = localStorage.getItem("userId");
         await deleteMovie(movie._id);
         const newMovies = await getMovies();
-        setMoviesShowed(newMovies);
-        setMovies(newMovies);
+        const userMovies = newMovies.filter(({ owner }) => owner === userId);
+        setMoviesShowed(userMovies);
+        setMovies(userMovies);
         setServerErrorMessage("");
       } catch (err) {
         setServerErrorMessage(ERROR_DELETE_MOVIES);

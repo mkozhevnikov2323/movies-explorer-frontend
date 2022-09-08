@@ -73,6 +73,7 @@ export default function App() {
     localStorage.removeItem('dataFromSearchForm');
     localStorage.removeItem('checkboxFilter');
     localStorage.removeItem('movies');
+    localStorage.removeItem('userId');
     setLoggedIn(false);
     setMessageAuth('');
     setLoggedIn(false);
@@ -86,6 +87,7 @@ export default function App() {
         .getContent(token)
         .then((res) => {
           if (res) {
+            localStorage.setItem("userId", res._id)
             setLoggedIn(true);
             setCurrentUser({
               name: res.name,
