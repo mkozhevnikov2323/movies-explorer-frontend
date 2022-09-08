@@ -16,7 +16,7 @@ export default function MoviesCardList({
   const { pathname } = useLocation();
 
   function renderCard(movieList) {
-    return movieList.map((movie) => (
+    return movieList?.map((movie) => (
       <MoviesCard
         key={movie.id || movie.movieId}
         movie={movie}
@@ -34,7 +34,7 @@ export default function MoviesCardList({
           ? renderCard(moviesShort)
           : renderCard(moviesShowed)}
       </section>
-      {movies.length > 0 && !checkboxFilter && pathname !== SAVED_MOVIES_PATH && (
+      {movies?.length > 0 && !checkboxFilter && pathname !== SAVED_MOVIES_PATH && (
         <section className="movies__more">
           <button
             onClick={onShowMore}

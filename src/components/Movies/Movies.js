@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import './Movies.css';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import SearchForm from './SearchForm/SearchForm';
-import Preloader from './Preloader/Preloader';
-import MoviesCardList from './MoviesCardList/MoviesCardList';
-import { getMoviesFromBeat } from '../../utils/movieApi';
-import { getMovies, createMovie, deleteMovie } from '../../utils/MainApi';
-import { getQuantityOfMovieCard } from '../../utils/functions';
-import { URL_MOVIES_DOMAIN, NOT_FOUND_SEARCH_MESSAGE, SHORT_MOVIE_DURATION, ERROR_SEARCH_EMPTY_MESSAGE, ERROR_SAVE_MOVIES, ERROR_DELETE_MOVIES, ERROR_GET_MOVIES, ERROR_SERVER_MESSAGE } from '../../utils/consatnts';
+import React, { useEffect, useState } from "react";
+import "./Movies.css";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import SearchForm from "./SearchForm/SearchForm";
+import Preloader from "./Preloader/Preloader";
+import MoviesCardList from "./MoviesCardList/MoviesCardList";
+import { getMoviesFromBeat } from "../../utils/movieApi";
+import { getMovies, createMovie, deleteMovie } from "../../utils/MainApi";
+import { getQuantityOfMovieCard, filterMovies } from "../../utils/functions";
+import {
+  URL_MOVIES_DOMAIN,
+  NOT_FOUND_SEARCH_MESSAGE,
+  ERROR_SEARCH_EMPTY_MESSAGE,
+  ERROR_SAVE_MOVIES,
+  ERROR_DELETE_MOVIES,
+  ERROR_SERVER_MESSAGE,
+} from "../../utils/consatnts";
 
 export default function Movies({ loggedIn }) {
   const [movies, setMovies] = useState([]);
@@ -21,7 +28,7 @@ export default function Movies({ loggedIn }) {
   const [moviesShort, setMoviesShort] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [serverErrorMessage, setServerErrorMessage] = useState("");
-  const [wasSearch, setWasSearch] = useState(false);
+  const [wasRender, setWasRender] = useState(false);
 
   useEffect(() => {
     setQuantityOfMovieCard(getQuantityOfMovieCard());
@@ -32,43 +39,61 @@ export default function Movies({ loggedIn }) {
     };
   }, []);
 
-  function handleSearchOfMovies(dataFromSearchForm) {
+  function handleSearchAllMovies(dataFromSearchForm) {
     setShowPreloader(true);
     setErrorMessage("");
-    setWasSearch(false);
     if (!dataFromSearchForm) {
       setTextErrorForSearch(ERROR_SEARCH_EMPTY_MESSAGE);
       setShowPreloader(false);
     } else {
       setTextErrorForSearch("");
     }
-    getMoviesFromBeat()
-      .then((res) => {
-        const moviesAfterFilter = res.filter(({ nameRU }) =>
-          nameRU.toLowerCase().includes(dataFromSearchForm.toLowerCase())
-        );
-        if (!moviesAfterFilter.length) {
-          setErrorMessage(NOT_FOUND_SEARCH_MESSAGE);
-        } else {
-          setErrorMessage("");
-        }
-        const moviesWithShort = moviesAfterFilter.filter(
-          ({ duration }) => duration <= SHORT_MOVIE_DURATION
-        );
-        setMovies(moviesAfterFilter);
-        localStorage.setItem("movies", JSON.stringify(moviesAfterFilter));
-        localStorage.setItem("checkboxFilter", checkboxFilter);
-        localStorage.setItem("dataFromSearchForm", dataFromSearchForm);
-        setMoviesShowed(moviesAfterFilter.splice(0, quantityOfMovieCard[0]));
-        setMoviesShort([...moviesWithShort].splice(0, quantityOfMovieCard[0]));
-        setServerErrorMessage('')
-        setWasSearch(true);
-      })
-      .catch((err) => {
-        setServerErrorMessage(ERROR_SERVER_MESSAGE);
-        setShowPreloader(false);
-        console.log(ERROR_SERVER_MESSAGE, err);
-      })
+    const allMoviesLocal = localStorage.getItem("movies");
+    if (!allMoviesLocal) {
+      getMoviesFromBeat()
+        .then((res) => {
+          localStorage.setItem("movies", JSON.stringify(res));
+          setServerErrorMessage("");
+          renderMovies();
+        })
+        .catch((err) => {
+          setServerErrorMessage(ERROR_SERVER_MESSAGE);
+          setShowPreloader(false);
+          console.log(ERROR_SERVER_MESSAGE, err);
+        });
+    }
+    localStorage.setItem("checkboxFilter", checkboxFilter);
+    localStorage.setItem("dataFromSearchForm", dataFromSearchForm);
+    renderMovies();
+  }
+
+  useEffect(() => {
+    renderMovies();
+  }, [wasRender, checkboxFilter]);
+
+  function renderMovies() {
+    const checkboxFilter = localStorage.getItem("checkboxFilter");
+    const dataFromSearchForm = localStorage.getItem("dataFromSearchForm");
+    const moviesAfterFilter = filterMovies();
+    setMovies(moviesAfterFilter);
+    if (moviesAfterFilter?.length === 0 && dataFromSearchForm !== "null") {
+      setErrorMessage(NOT_FOUND_SEARCH_MESSAGE);
+    } else if (
+      moviesAfterFilter?.length === 0 &&
+      (dataFromSearchForm === "null" || dataFromSearchForm === "")
+    ) {
+      setErrorMessage("");
+    } else {
+      setErrorMessage("");
+    }
+
+    if (checkboxFilter === "true") {
+      setMoviesShort(moviesAfterFilter?.splice(0, quantityOfMovieCard[0]));
+    } else {
+      setMoviesShowed(moviesAfterFilter?.splice(0, quantityOfMovieCard[0]));
+    }
+    setShowPreloader(false);
+    setWasRender(true);
   }
 
   const handleChangeCheckboxFilter = () => {
@@ -76,7 +101,9 @@ export default function Movies({ loggedIn }) {
   };
 
   const handleShowMore = () => {
-    const moviesMore = moviesShowed.concat(movies.splice(0, quantityOfMovieCard[1]));
+    const moviesMore = moviesShowed.concat(
+      movies.splice(0, quantityOfMovieCard[1])
+    );
     setMoviesShowed(moviesMore);
   };
 
@@ -116,28 +143,6 @@ export default function Movies({ loggedIn }) {
     }
   }
 
-  useEffect(() => {
-    getMovies()
-      .then((movies) => {
-        setSavedMovies(movies);
-        setServerErrorMessage("");
-      })
-      .catch((err) => {
-        console.log("Error", err);
-        setServerErrorMessage(ERROR_GET_MOVIES);
-      });
-
-    const localMovies = localStorage.getItem("movies");
-
-    if (localMovies) {
-      const filterData = JSON.parse(localMovies);
-      setMovies(filterData);
-      setMoviesShort(filterData.filter(({ duration }) => duration <= 40));
-      setMoviesShowed(filterData.splice(0, getQuantityOfMovieCard()[0]));
-      setShowPreloader(false);
-    }
-  }, [wasSearch]);
-
   return (
     <>
       <Header login={true} loggedIn={loggedIn} />
@@ -147,11 +152,13 @@ export default function Movies({ loggedIn }) {
           setCheckboxFilter={setCheckboxFilter}
           checkboxFilter={checkboxFilter}
           errorText={textErrorForSearch}
-          handleSearchOfMovies={handleSearchOfMovies}
+          handleSearchOfMovies={handleSearchAllMovies}
         />
         {showPreloader && <Preloader />}
         {errorMessage && (
-          <div className="movies__error-message">{NOT_FOUND_SEARCH_MESSAGE}</div>
+          <div className="movies__error-message">
+            {NOT_FOUND_SEARCH_MESSAGE}
+          </div>
         )}
         {serverErrorMessage && (
           <div className="movies__error-message">{serverErrorMessage}</div>
