@@ -1,36 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import { CurrentUserContext } from '../../context/CurrentUserContext';
-import Main from '../Main/Main';
-import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Profile from '../Profile/Profile';
-import Login from '../Login/Login';
-import Register from '../Register/Register';
-import PageNotFound from '../PageNotFound/PageNotFound';
-import './App.css';
-import * as auth from '../../utils/auth';
-import * as api from '../../utils/MainApi';
-import { REG_SUCCESS_MESSAGE, ERROR_CONFLICT_MESSAGE, ERROR_CONFLICT_STATUS, ERROR_VALIDATION_STATUS, ERROR_VALIDATION_MESSAGE, ERROR_SERVER_MESSAGE, AUTH_SUCCESS_MESSAGE } from '../../utils/consatnts';
+import React, { useState, useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
+import Main from "../Main/Main";
+import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import Profile from "../Profile/Profile";
+import Login from "../Login/Login";
+import Register from "../Register/Register";
+import PageNotFound from "../PageNotFound/PageNotFound";
+import "./App.css";
+import * as auth from "../../utils/auth";
+import * as api from "../../utils/MainApi";
+import {
+  REG_SUCCESS_MESSAGE,
+  ERROR_CONFLICT_MESSAGE,
+  ERROR_CONFLICT_STATUS,
+  ERROR_VALIDATION_STATUS,
+  ERROR_VALIDATION_MESSAGE,
+  ERROR_SERVER_MESSAGE,
+  AUTH_SUCCESS_MESSAGE,
+  CHANGE_AUTH_SUCCESS_MESSAGE
+} from "../../utils/consatnts";
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
   const navigate = useNavigate();
-  const [messageAuth, setMessageAuth] = useState('');
+  const [messageAuth, setMessageAuth] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    tokenCheck()
+    tokenCheck();
   }, [loggedIn]);
 
   function handleRegistration(regData) {
-    auth.register({
-      name: regData.name,
-      email: regData.email,
-      password: regData.password
-    })
+    auth
+      .register({
+        name: regData.name,
+        email: regData.email,
+        password: regData.password,
+      })
       .then(() => {
         setMessageAuth(REG_SUCCESS_MESSAGE);
+        setTimeout(() => {
+          setMessageAuth("");
+        }, 2000);
       })
       .then(() => {
         handleLogin(regData.email, regData.password);
@@ -39,12 +52,16 @@ export default function App() {
         console.log(err);
         if (err === ERROR_CONFLICT_STATUS) {
           setMessageAuth(ERROR_CONFLICT_MESSAGE);
-        }
-        else if (err === ERROR_VALIDATION_STATUS) {
+        } else if (err === ERROR_VALIDATION_STATUS) {
           setMessageAuth(ERROR_VALIDATION_MESSAGE);
-        }
-        else {
+          setTimeout(() => {
+            setMessageAuth("");
+          }, 2000);
+        } else {
           setMessageAuth(ERROR_SERVER_MESSAGE);
+          setTimeout(() => {
+            setMessageAuth("");
+          }, 2000);
         }
       });
   }
@@ -56,28 +73,34 @@ export default function App() {
         if (data.token) {
           localStorage.setItem("token", data.token);
           setMessageAuth(AUTH_SUCCESS_MESSAGE);
-          setLoggedIn(true)
+          setTimeout(() => {
+            setMessageAuth("");
+          }, 2000);
+          setLoggedIn(true);
         }
       })
       .then(() => {
-        navigate('/movies');
+        navigate("/movies");
       })
       .catch((err) => {
         console.log(err);
-        setMessageAuth(ERROR_VALIDATION_MESSAGE)
+        setMessageAuth(ERROR_VALIDATION_MESSAGE);
+        setTimeout(() => {
+          setMessageAuth("");
+        }, 2000);
       });
   }
 
   function signOut() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('dataFromSearchForm');
-    localStorage.removeItem('checkboxFilter');
-    localStorage.removeItem('movies');
-    localStorage.removeItem('userId');
+    localStorage.removeItem("token");
+    localStorage.removeItem("dataFromSearchForm");
+    localStorage.removeItem("checkboxFilter");
+    localStorage.removeItem("movies");
+    localStorage.removeItem("userId");
     setLoggedIn(false);
-    setMessageAuth('');
+    setMessageAuth("");
     setLoggedIn(false);
-    navigate('/');
+    navigate("/");
   }
 
   function tokenCheck() {
@@ -87,12 +110,12 @@ export default function App() {
         .getContent(token)
         .then((res) => {
           if (res) {
-            localStorage.setItem("userId", res._id)
+            localStorage.setItem("userId", res._id);
             setLoggedIn(true);
             setCurrentUser({
               name: res.name,
-              email: res.email
-            })
+              email: res.email,
+            });
           }
         })
         .catch((err) => {
@@ -106,9 +129,16 @@ export default function App() {
       .updateUserInfo(userData)
       .then((data) => {
         setCurrentUser(data);
+        setMessageAuth(CHANGE_AUTH_SUCCESS_MESSAGE);
       })
       .catch((err) => {
         console.log(err);
+        if (err === ERROR_CONFLICT_STATUS) {
+          setMessageAuth(ERROR_CONFLICT_MESSAGE);
+          setTimeout(() => {
+            setMessageAuth("");
+          }, 2000);
+        }
       });
   }
 
@@ -121,7 +151,7 @@ export default function App() {
             path="/movies"
             element={
               loggedIn ? (
-                <Movies loggedIn={loggedIn}/>
+                <Movies loggedIn={loggedIn} />
               ) : (
                 <Navigate replace to="/" />
               )
@@ -145,6 +175,7 @@ export default function App() {
                   loggedIn={loggedIn}
                   onSignOut={signOut}
                   onUpdateUser={handleUpdateUser}
+                  messageAuth={messageAuth}
                 />
               ) : (
                 <Navigate replace to="/" />
