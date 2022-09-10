@@ -126,8 +126,8 @@ export default function Movies({ loggedIn }) {
         await createMovie(movieInfo);
         const newSavedMovie = await getMovies();
         const sawedMoviesOnlyThisUser = newSavedMovie.filter((movie) => {
-          return (movie.owner === localStorage.getItem("userId"))
-        })
+          return movie.owner === localStorage.getItem("userId");
+        });
         setSavedMovies(sawedMoviesOnlyThisUser);
         setServerErrorMessage("");
       } catch (err) {
@@ -137,8 +137,11 @@ export default function Movies({ loggedIn }) {
     } else {
       try {
         await deleteMovie(movie._id);
-        const savedMovies = await getMovies();
-        setSavedMovies(savedMovies);
+        const newSavedMovie = await getMovies();
+        const sawedMoviesOnlyThisUser = newSavedMovie.filter((movie) => {
+          return movie.owner === localStorage.getItem("userId");
+        });
+        setSavedMovies(sawedMoviesOnlyThisUser);
         setServerErrorMessage("");
       } catch (err) {
         console.log(ERROR_DELETE_MOVIES, err);
@@ -154,13 +157,8 @@ export default function Movies({ loggedIn }) {
         const data = await getMovies();
         const userMovies = data.filter(({ owner }) => owner === userId);
         setSavedMovies(userMovies);
-        // setAllMovies(userMovies);
-        // setMoviesShowed(userMovies);
-        // setMoviesShort(userMovies.filter(({ duration }) => duration <= SHORT_MOVIE_DURATION));
         setServerErrorMessage("");
       } catch (err) {
-        // console.log(ERROR_GET_MOVIES, err);
-        // setServerErrorMessage(ERROR_GET_MOVIES);
       } finally {
         setShowPreloader(false);
       }

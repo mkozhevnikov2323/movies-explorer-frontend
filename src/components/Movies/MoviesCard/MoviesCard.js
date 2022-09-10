@@ -9,8 +9,8 @@ export default function MoviesCard({ movie, likeMovies, savedMovies, checkboxFil
   const { pathname } = useLocation();
 
   const handleAddLike = () => {
-    const savedMovie = savedMovies.filter((movie) => {
-      return movie.movieId === movie.id;
+    const savedMovie = savedMovies.filter((obj) => {
+      return obj.movieId === movie.id;
     });
     setIsLiked(!isLiked)
     likeMovies(
