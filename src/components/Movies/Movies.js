@@ -69,7 +69,7 @@ export default function Movies({ loggedIn }) {
 
   useEffect(() => {
     renderMovies();
-  }, [wasRender, checkboxFilter]);
+  }, [wasRender, checkboxFilter, savedMovies]);
 
   function renderMovies() {
     const checkboxFilter = localStorage.getItem("checkboxFilter");
@@ -125,7 +125,10 @@ export default function Movies({ loggedIn }) {
       try {
         await createMovie(movieInfo);
         const newSavedMovie = await getMovies();
-        setSavedMovies(newSavedMovie);
+        const sawedMoviesOnlyThisUser = newSavedMovie.filter((movie) => {
+          return (movie.owner === localStorage.getItem("userId"))
+        })
+        setSavedMovies(sawedMoviesOnlyThisUser);
         setServerErrorMessage("");
       } catch (err) {
         console.log(ERROR_SAVE_MOVIES, err);
@@ -142,6 +145,28 @@ export default function Movies({ loggedIn }) {
       }
     }
   }
+
+  useEffect(() => {
+    const getMoviesSave = async () => {
+      setShowPreloader(true);
+      try {
+        const userId = localStorage.getItem("userId");
+        const data = await getMovies();
+        const userMovies = data.filter(({ owner }) => owner === userId);
+        setSavedMovies(userMovies);
+        // setAllMovies(userMovies);
+        // setMoviesShowed(userMovies);
+        // setMoviesShort(userMovies.filter(({ duration }) => duration <= SHORT_MOVIE_DURATION));
+        setServerErrorMessage("");
+      } catch (err) {
+        // console.log(ERROR_GET_MOVIES, err);
+        // setServerErrorMessage(ERROR_GET_MOVIES);
+      } finally {
+        setShowPreloader(false);
+      }
+    };
+    getMoviesSave();
+  }, []);
 
   return (
     <>
