@@ -27,6 +27,7 @@ export default function App() {
   const navigate = useNavigate();
   const [messageAuth, setMessageAuth] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  // const token = localStorage.getItem('token')
 
   useEffect(() => {
     tokenCheck();
@@ -100,6 +101,7 @@ export default function App() {
     setLoggedIn(false);
     setMessageAuth("");
     setLoggedIn(false);
+    setCurrentUser({});
     navigate("/");
   }
 
