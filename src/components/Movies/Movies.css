@@ -1,6 +1,7 @@
 .movies {
   background-color: rgba(32, 32, 32, 1);
   padding: 70px 70px 80px;
+  flex-grow: 1;
 }
 
 .movies__more {
@@ -27,6 +28,15 @@
 
 .movies__more-btn:hover {
   opacity: .8;
+}
+
+.movies__error-message {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(238, 52, 101, 1);
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {

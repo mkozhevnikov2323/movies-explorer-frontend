@@ -7,3 +7,4 @@
 
 * [Ссылка на Frontend](https://movies.m23.nomoredomains.xyz)
 
+* [Ссылка на Pull request](https://github.com/mkozhevnikov2323/movies-explorer-frontend/pull/2)

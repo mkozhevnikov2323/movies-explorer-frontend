@@ -1,6 +1,7 @@
 .savedMovies {
   background-color: rgba(32, 32, 32, 1);
   padding: 70px 70px 80px;
+  flex-grow: 1;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {

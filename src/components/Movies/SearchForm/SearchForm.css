@@ -46,6 +46,15 @@
   opacity: .6;
 }
 
+.searchForm_error-message {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(238, 52, 101, 1);
+}
+
 @media screen and (max-width: 767px) {
   .searchForm__form {
     padding: 6px;

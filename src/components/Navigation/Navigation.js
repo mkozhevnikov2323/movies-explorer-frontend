@@ -3,11 +3,11 @@ import './Navigation.css';
 import NavigationAccount from './NavigationAccount/NavigationAccount';
 import NavigationAuthorization from './NavigationAuthorization/NavigationAuthorization';
 
-export default function Navigation({ login }) {
+export default function Navigation({ loggedIn }) {
 
   return (
     <>
-      {login ? <NavigationAccount /> : <NavigationAuthorization />}
+      {loggedIn ? <NavigationAccount /> : <NavigationAuthorization />}
     </>
   )
 }
